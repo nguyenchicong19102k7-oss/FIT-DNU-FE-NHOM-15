@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- Theme Manager -->
+    <script src="js/theme.js"></script>
     <style>
         /* Auth Page Specific Styles */
         body.auth-page {
@@ -276,6 +278,13 @@
     </style>
 </head>
 <body class="auth-page">
+
+    <!-- Theme Toggle Button -->
+    <div class="position-fixed top-0 end-0 p-3 z-3">
+        <button class="theme-toggle-btn" id="theme-toggle" title="Đổi giao diện Sáng/Tối">
+            <i class="bi bi-moon-stars-fill theme-toggle-icon"></i>
+        </button>
+    </div>
 
     <div class="auth-container">
         <!-- Header -->
