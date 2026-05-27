@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ArtGallery — Gửi tác phẩm mới để admin duyệt.">
+    <title>ArtGallery — Gửi tác phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="gallery-page">
+    <nav class="navbar navbar-expand-lg gallery-navbar fixed-top" id="gallery-nav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-palette2"></i> ArtGallery
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" title="Toggle navigation menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-door me-1"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.html">
+                            <i class="bi bi-grid-3x3-gap me-1"></i> Bộ sưu tập
+                        </a>
+                    </li>
+                    <li class="nav-item d-none" id="submit-link">
+                        <a class="nav-link active" href="submit.html">
+                            <i class="bi bi-upload me-1"></i> Gửi tác phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item" id="admin-link">
+                        <a class="nav-link" href="admin.html">
+                            <i class="bi bi-gear me-1"></i> Quản trị
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" id="user-menu">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="user-avatar d-none" id="user-avatar"></span>
+                            <span id="user-display-name">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><span class="dropdown-header" id="user-email-display">user@example.com</span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item" id="login-link">
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section text-center">
+        <div class="hero-bg-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+        <div class="container position-relative z-1">
+            <h1 class="hero-title">Gửi tác phẩm mới</h1>
+            <hr class="hero-divider">
+            <p class="hero-tagline">Chia sẻ tác phẩm của bạn để admin duyệt và xuất hiện trên ArtGallery.</p>
+        </div>
+    </section>
+
+    <section class="submit-section" id="submit-page-section">
+        <div class="container">
+            <div class="submit-card mx-auto">
+                <div class="submit-card-header">
+                    <h2>Gửi tác phẩm mới cho admin duyệt</h2>
+                    <p class="text-muted" id="submit-instruction">Chia sẻ tác phẩm của bạn với ArtGallery, admin sẽ duyệt trước khi đưa lên bộ sưu tập.</p>
+                </div>
+                <div class="submit-card-body">
+                    <div id="submit-login-warning" class="alert alert-warning d-none" role="alert">
+                        Vui lòng <a href="login.html" class="alert-link">đăng nhập</a> trước khi gửi tác phẩm.
+                    </div>
+                    <form id="user-artwork-form" class="submit-form">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="submit-title" class="form-label">Tiêu đề tác phẩm</label>
+                                <input type="text" class="form-control" id="submit-title" placeholder="Nhập tiêu đề" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-artist" class="form-label">Tên nghệ sĩ</label>
+                                <input type="text" class="form-control" id="submit-artist" placeholder="Tên nghệ sĩ" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-style" class="form-label">Phong cách</label>
+                                <input type="text" class="form-control" id="submit-style" placeholder="Ví dụ: Sơn dầu, Màu nước" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-imageUrl" class="form-label">URL ảnh</label>
+                                <input type="url" class="form-control" id="submit-imageUrl" placeholder="https://example.com/art.jpg" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="submit-story" class="form-label">Mô tả / Câu chuyện</label>
+                                <textarea class="form-control" id="submit-story" rows="5" placeholder="Mô tả cảm hứng, ý nghĩa tác phẩm" required></textarea>
+                            </div>
+                            <div class="col-12 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                                <span class="submit-helper text-muted">Mục này sẽ giúp admin hiểu rõ hơn về tác phẩm của bạn.</span>
+                                <button type="submit" class="btn btn-gold">Gửi bài viết</button>
+                            </div>
+                            <div class="col-12">
+                                <div id="submit-feedback" class="submit-feedback text-center"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="gallery-footer">
+        <div class="container">
+            <p><span class="gold-text">ArtGallery</span> &copy; 2026 — Triển lãm nghệ thuật trực tuyến</p>
+            <p class="mt-1">Thiết kế với <i class="bi bi-heart-fill text-danger"></i> dành cho nghệ thuật Việt Nam</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        function getUserInitials(name) {
+            if (!name) return '';
+            return name
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part[0].toUpperCase())
+                .join('');
+        }
+
+        function updateUserUI() {
+            const userMenu = document.getElementById('user-menu');
+            const loginLink = document.getElementById('login-link');
+            const adminLink = document.getElementById('admin-link');
+            const submitLink = document.getElementById('submit-link');
+            const form = document.getElementById('user-artwork-form');
+            const warning = document.getElementById('submit-login-warning');
+            const feedback = document.getElementById('submit-feedback');
+            const avatar = document.getElementById('user-avatar');
+
+            if (auth.isUserLoggedIn()) {
+                const user = auth.getCurrentUser();
+                document.getElementById('user-display-name').textContent = user.fullName || user.email;
+                document.getElementById('user-email-display').textContent = user.email;
+                if (avatar) {
+                    avatar.textContent = getUserInitials(user.fullName || user.email);
+                    avatar.classList.remove('d-none');
+                }
+                if (userMenu) userMenu.classList.add('show-user-menu');
+                if (loginLink) loginLink.classList.add('hide-login');
+                if (adminLink) adminLink.classList.add('hide-admin');
+                if (submitLink) submitLink.classList.remove('d-none');
+                if (form) form.classList.remove('d-none');
+                if (warning) warning.classList.add('d-none');
+            } else {
+                if (avatar) {
+                    avatar.textContent = '';
+                    avatar.classList.add('d-none');
+                }
+                if (userMenu) userMenu.classList.remove('show-user-menu');
+                if (loginLink) loginLink.classList.remove('hide-login');
+                if (adminLink) adminLink.classList.remove('hide-admin');
+                if (submitLink) submitLink.classList.add('d-none');
+                if (form) form.classList.add('d-none');
+                if (warning) warning.classList.remove('d-none');
+                if (feedback) feedback.textContent = '';
+            }
+        }
+
+        function logoutUser() {
+            auth.logoutUser();
+            location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('user-artwork-form');
+            const feedback = document.getElementById('submit-feedback');
+
+            updateUserUI();
+
+            if (!form || !feedback) return;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!auth.isUserLoggedIn()) {
+                    feedback.textContent = 'Vui lòng đăng nhập để gửi bài viết.';
+                    feedback.className = 'text-danger mt-3';
+                    return;
+                }
+
+                const title = document.getElementById('submit-title').value.trim();
+                const artist = document.getElementById('submit-artist').value.trim();
+                const style = document.getElementById('submit-style').value.trim();
+                const imageUrl = document.getElementById('submit-imageUrl').value.trim();
+                const story = document.getElementById('submit-story').value.trim();
+
+                if (!title || !artist || !style || !imageUrl || !story) {
+                    feedback.textContent = 'Vui lòng điền đầy đủ tất cả các trường thông tin.';
+                    feedback.className = 'text-danger mt-3';
+                    return;
+                }
+
+                const user = auth.getCurrentUser();
+                const artworkData = {
+                    title: title,
+                    artist: artist,
+                    style: style,
+                    imageUrl: imageUrl,
+                    story: story,
+                    likes: 0,
+                    status: 'pending',
+                    createdBy: user.fullName || user.email,
+                    createdAt: new Date().toISOString()
+                };
+
+                feedback.textContent = 'Đang gửi bài viết...';
+                feedback.className = 'text-muted mt-3';
+
+                API.createArtwork(artworkData)
+                    .then(function () {
+                        feedback.textContent = 'Bài viết đã được gửi. Vui lòng chờ admin duyệt để nó xuất hiện trên trang.';
+                        feedback.className = 'text-success mt-3';
+                        form.reset();
+                    })
+                    .catch(function (error) {
+                        console.error('Submit artwork failed:', error);
+                        feedback.textContent = 'Có lỗi khi gửi bài viết. Vui lòng thử lại.';
+                        feedback.className = 'text-danger mt-3';
+                    });
+            });
+        });
+    </script>
+    <style>
+        #user-menu { display: none; }
+        #user-menu.show-user-menu { display: block; }
+        #login-link.hide-login,
+        #admin-link.hide-admin { display: none; }
+    </style>
+</body>
+</html>

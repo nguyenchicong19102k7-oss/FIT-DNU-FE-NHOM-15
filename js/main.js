@@ -246,8 +246,8 @@ document.addEventListener('DOMContentLoaded', function () {
         updateUserUI();
     }
 
-    if (window.location.hash === '#gallery-panel') {
-        showGalleryPanel();
+    if (window.location.hash === '#submit') {
+        activateTab('submit');
     }
 });
 
@@ -337,7 +337,7 @@ function loadGallery() {
  * Render featured artworks section
  */
 function renderFeaturedSection() {
-    var featured = getTopFeaturedArtworks(allArtworks, 6);
+    var featured = getTopFeaturedArtworks(allArtworks, 8);
     var container = document.getElementById('featured-grid');
     if (!container) return;
 
@@ -352,8 +352,9 @@ function renderFeaturedSection() {
     var html = '';
     featured.forEach(function (artwork) {
         var imgUrl = getImageUrl(artwork.imageUrl, artwork.id);
+        var displayLikes = (artwork.likes || 0) + 20;
 
-        html += '<div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4 artwork-card-wrapper" data-style="' + (artwork.style || '') + '">';
+        html += '<div class="artwork-card-wrapper" data-style="' + (artwork.style || '') + '">';
         html += '  <div class="card artwork-card h-100" style="cursor: pointer;" onclick="openArtworkModal(\'' + artwork.id + '\')">';
         html += '    <div class="card-img-wrapper">';
         html += '      <img src="' + imgUrl + '" class="card-img-top" alt="' + (artwork.title || '') + '" loading="lazy" onerror="this.src=\'https://picsum.photos/seed/fallback' + artwork.id + '/600/800\'">';
@@ -364,9 +365,9 @@ function renderFeaturedSection() {
         html += '      <h5 class="card-title">' + (artwork.title || 'Untitled') + '</h5>';
         html += '      <p class="card-artist"><i class="bi bi-person-fill"></i> ' + (artwork.artist || 'Unknown') + '</p>';
         html += '      <div class="card-footer-info">';
-        html += '        <button class="btn-like" data-id="' + artwork.id + '" data-likes="' + (artwork.likes || 0) + '">';
+        html += '        <button class="btn-like" data-id="' + artwork.id + '" data-likes="' + (artwork.likes || 0) + '" data-boost="20">';
         html += '          <i class="bi bi-heart-fill"></i>';
-        html += '          <span class="like-count">' + (artwork.likes || 0) + '</span>';
+        html += '          <span class="like-count">' + displayLikes + '</span>';
         html += '        </button>';
         html += '      </div>';
         html += '    </div>';
@@ -383,19 +384,6 @@ function renderFeaturedSection() {
                 card.classList.add('visible');
             }, index * 50);
         })(cards[i], i);
-    }
-}
-
-function showGalleryPanel() {
-    var featured = document.querySelector('.featured-section');
-    var galleryPanel = document.getElementById('gallery-panel');
-
-    if (featured) {
-        featured.classList.add('d-none');
-    }
-    if (galleryPanel) {
-        galleryPanel.classList.remove('d-none');
-        galleryPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -581,14 +569,28 @@ function setupSearch() {
  * Update search results info text
  * @param {number} count
  */
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 function updateSearchInfo(count) {
     var infoEl = document.getElementById('search-results-info');
     if (!infoEl) return;
 
     if (currentSearch.trim() !== '') {
-        infoEl.innerHTML = 'Tìm thấy <span class="highlight">' + count + '</span> tác phẩm cho "' + currentSearch + '"';
+        var queryText = escapeHtml(currentSearch.trim());
+        if (count === 0) {
+            infoEl.innerHTML = 'Không tìm thấy tác phẩm nào cho <span class="highlight">"' + queryText + '"</span>. Thử từ khóa khác.';
+        } else {
+            infoEl.innerHTML = 'Đã tìm thấy <span class="highlight">' + count + '</span> tác phẩm cho <span class="highlight">"' + queryText + '"</span>.';
+        }
     } else {
-        infoEl.innerHTML = '';
+        infoEl.innerHTML = 'Nhập từ khóa để tìm theo tên tác phẩm, họa sĩ hoặc phong cách.';
     }
 }
 
@@ -640,11 +642,12 @@ function setupLikeButtons() {
 function handleLikeClick(e) {
     var btn = e.currentTarget;
     var id = btn.getAttribute('data-id');
+    var boost = parseInt(btn.getAttribute('data-boost'), 10) || 0;
     var currentLikes = parseInt(btn.getAttribute('data-likes'), 10) || 0;
     var newLikes = currentLikes + 1;
 
     var countSpan = btn.querySelector('.like-count');
-    countSpan.textContent = newLikes;
+    countSpan.textContent = newLikes + boost;
     btn.setAttribute('data-likes', newLikes);
 
     // jQuery animation (ONLY jQuery usage)
@@ -663,7 +666,7 @@ function handleLikeClick(e) {
             }
         })
         .catch(function (error) {
-            countSpan.textContent = currentLikes;
+            countSpan.textContent = currentLikes + boost;
             btn.setAttribute('data-likes', currentLikes);
             console.error('Like update failed:', error);
         });
