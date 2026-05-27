@@ -45,9 +45,14 @@
                             <i class="bi bi-grid-3x3-gap me-1"></i> Bộ sưu tập
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="admin-link">
                         <a class="nav-link" href="admin.html">
                             <i class="bi bi-gear me-1"></i> Quản trị
+                        </a>
+                    </li>
+                    <li class="nav-item d-none" id="submit-link">
+                        <a class="nav-link" href="#" onclick="activateTab('submit'); return false;">
+                            <i class="bi bi-upload me-1"></i> Gửi bài viết
                         </a>
                     </li>
                     <li class="nav-item dropdown" id="user-menu">
@@ -99,6 +104,50 @@
                 <h2 class="mb-4">Tác phẩm nổi bật</h2>
             </div>
             <div class="row" id="featured-grid"></div>
+        </div>
+    </section>
+
+    <section class="submit-section d-none" id="user-submit-section">
+        <div class="container">
+            <div class="text-center mb-4">
+                <p class="section-label">Thêm bài viết</p>
+                <h2 class="mb-3">Gửi tác phẩm mới cho admin duyệt</h2>
+                <p class="text-muted" id="submit-instruction">Bạn có thể gửi bài viết mới. Bài viết sẽ chờ admin duyệt trước khi hiển thị trên trang.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form id="user-artwork-form" class="artwork-submit-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="submit-title" class="form-label">Tiêu đề tác phẩm</label>
+                                <input type="text" class="form-control" id="submit-title" placeholder="Nhập tiêu đề" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-artist" class="form-label">Tên nghệ sĩ</label>
+                                <input type="text" class="form-control" id="submit-artist" placeholder="Tên nghệ sĩ" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-style" class="form-label">Phong cách</label>
+                                <input type="text" class="form-control" id="submit-style" placeholder="Ví dụ: Sơn dầu, Màu nước" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="submit-imageUrl" class="form-label">URL ảnh</label>
+                                <input type="url" class="form-control" id="submit-imageUrl" placeholder="https://example.com/art.jpg" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="submit-story" class="form-label">Mô tả / Câu chuyện</label>
+                                <textarea class="form-control" id="submit-story" rows="4" placeholder="Mô tả cảm hứng, ý nghĩa tác phẩm" required></textarea>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-gold">Gửi bài viết</button>
+                            </div>
+                            <div class="col-12">
+                                <div id="submit-feedback" class="text-center mt-3"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -242,16 +291,54 @@
         function updateUserUI() {
             const userMenu = document.getElementById('user-menu');
             const loginLink = document.getElementById('login-link');
-            
+            const adminLink = document.getElementById('admin-link');
+            const submitLink = document.getElementById('submit-link');
+            const submitSection = document.getElementById('user-submit-section');
+            const submitFeedback = document.getElementById('submit-feedback');
+
             if (auth.isUserLoggedIn()) {
                 const user = auth.getCurrentUser();
                 document.getElementById('user-display-name').textContent = user.fullName || user.email;
                 document.getElementById('user-email-display').textContent = user.email;
                 userMenu.classList.add('show-user-menu');
                 loginLink.classList.add('hide-login');
+                if (adminLink) {
+                    adminLink.classList.add('hide-admin');
+                }
+                if (submitLink) {
+                    submitLink.classList.remove('d-none');
+                }
+                if (submitSection) {
+                    submitSection.classList.add('d-none');
+                }
+                activateTab('gallery');
             } else {
                 userMenu.classList.remove('show-user-menu');
                 loginLink.classList.remove('hide-login');
+                if (adminLink) {
+                    adminLink.classList.remove('hide-admin');
+                }
+                if (submitLink) {
+                    submitLink.classList.add('d-none');
+                }
+                if (submitSection) {
+                    submitSection.classList.add('d-none');
+                }
+                if (submitFeedback) {
+                    submitFeedback.textContent = '';
+                }
+            }
+        }
+
+        function activateTab(tab) {
+            var gallerySection = document.getElementById('gallery-panel');
+            var submitSection = document.getElementById('user-submit-section');
+
+            if (gallerySection) {
+                gallerySection.classList.toggle('d-none', tab !== 'gallery');
+            }
+            if (submitSection) {
+                submitSection.classList.toggle('d-none', tab !== 'submit');
             }
         }
 
@@ -271,7 +358,8 @@
         #user-menu.show-user-menu {
             display: block;
         }
-        #login-link.hide-login {
+        #login-link.hide-login,
+        #admin-link.hide-admin {
             display: none;
         }
     </style>

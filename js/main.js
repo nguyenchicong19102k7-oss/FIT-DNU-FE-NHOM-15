@@ -240,11 +240,77 @@ document.addEventListener('DOMContentLoaded', function () {
     setupFilterButtons();
     setupSearch();
     setupChatbot();
+    setupUserArtworkForm();
+
+    if (typeof updateUserUI === 'function') {
+        updateUserUI();
+    }
 
     if (window.location.hash === '#gallery-panel') {
         showGalleryPanel();
     }
 });
+
+/**
+ * Set up form submission for logged-in users to submit artworks pending approval
+ */
+function setupUserArtworkForm() {
+    var section = document.getElementById('user-submit-section');
+    var form = document.getElementById('user-artwork-form');
+    var feedback = document.getElementById('submit-feedback');
+    if (!section || !form || !feedback) return;
+
+    section.classList.add('d-none');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!auth.isUserLoggedIn()) {
+            feedback.textContent = 'Vui lòng đăng nhập để gửi bài viết.';
+            feedback.className = 'text-danger mt-3';
+            return;
+        }
+
+        var title = document.getElementById('submit-title').value.trim();
+        var artist = document.getElementById('submit-artist').value.trim();
+        var style = document.getElementById('submit-style').value.trim();
+        var imageUrl = document.getElementById('submit-imageUrl').value.trim();
+        var story = document.getElementById('submit-story').value.trim();
+
+        if (!title || !artist || !style || !imageUrl || !story) {
+            feedback.textContent = 'Vui lòng điền đầy đủ tất cả các trường thông tin.';
+            feedback.className = 'text-danger mt-3';
+            return;
+        }
+
+        var user = auth.getCurrentUser();
+        var artworkData = {
+            title: title,
+            artist: artist,
+            style: style,
+            imageUrl: imageUrl,
+            story: story,
+            likes: 0,
+            status: 'pending',
+            createdBy: user.fullName || user.email,
+            createdAt: new Date().toISOString()
+        };
+
+        feedback.textContent = 'Đang gửi bài viết...';
+        feedback.className = 'text-muted mt-3';
+
+        API.createArtwork(artworkData)
+            .then(function () {
+                feedback.textContent = 'Bài viết đã được gửi. Vui lòng chờ admin duyệt để nó xuất hiện trên trang.';
+                feedback.className = 'text-success mt-3';
+                form.reset();
+            })
+            .catch(function (error) {
+                console.error('Submit artwork failed:', error);
+                feedback.textContent = 'Có lỗi khi gửi bài viết. Vui lòng thử lại.';
+                feedback.className = 'text-danger mt-3';
+            });
+    });
+}
 
 /**
  * Load artworks from the API and render the gallery
