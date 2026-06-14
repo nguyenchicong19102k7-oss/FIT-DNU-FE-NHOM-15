@@ -239,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
     loadGallery();
     setupFilterButtons();
     setupSearch();
-    setupChatbot();
     setupUserArtworkForm();
 
     if (typeof updateUserUI === 'function') {
@@ -664,6 +663,8 @@ function handleLikeClick(e) {
                     break;
                 }
             }
+            // Re-render featured section so top artworks update live
+            renderFeaturedSection();
         })
         .catch(function (error) {
             countSpan.textContent = currentLikes + boost;

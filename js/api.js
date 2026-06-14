@@ -187,23 +187,5 @@ window.API = {
                 }
                 return Promise.reject(error);
             });
-    },
-
-    /**
-     * GET /artists — Fetch all artists
-     * @returns {Promise<Array>}
-     */
-    getArtists: function () {
-        return fetch(API_BASE + '/artists')
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch artists: ' + response.status);
-                }
-                return response.json();
-            })
-            .catch(function (error) {
-                console.error('API.getArtists error:', error);
-                throw error;
-            });
     }
 };

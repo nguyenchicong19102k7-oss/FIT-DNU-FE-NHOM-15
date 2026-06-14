@@ -181,24 +181,60 @@
 
     <!-- ═══ Chatbot Widget ═══ -->
     <div class="chatbot-widget" id="chatbot-widget">
-        <button class="chatbot-toggler" id="chatbot-toggler" title="Open chat with ArtBot">
-            <i class="bi bi-chat-dots-fill"></i>
+        <!-- Toggle button -->
+        <button class="chatbot-toggler" id="chatbot-toggler" title="Chat với ArtBot AI">
+            <i class="bi bi-stars chat-icon-open"></i>
+            <i class="bi bi-x-lg chat-icon-close"></i>
         </button>
+
+        <!-- Chat window -->
         <div class="chatbot-window" id="chatbot-window">
+            <!-- Header -->
             <div class="chatbot-header">
-                <h6><i class="bi bi-robot"></i> ArtBot</h6>
-                <button class="chatbot-close" id="chatbot-close" title="Close chat"><i class="bi bi-x-lg"></i></button>
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar-wrap">
+                        <i class="bi bi-robot"></i>
+                        <span class="chatbot-online-dot"></span>
+                    </div>
+                    <div>
+                        <div class="chatbot-name">ArtBot <span class="chatbot-ai-badge">AI</span></div>
+                        <div class="chatbot-status">Đang hoạt động · Gemini AI</div>
+                    </div>
+                </div>
+                <button class="chatbot-close" id="chatbot-close" title="Đóng chat">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
             </div>
+
+            <!-- Messages -->
             <div class="chatbot-body" id="chatbot-body">
-                <div class="chat-msg bot-msg">Xin chào! Tôi là ArtBot. Tôi có thể giúp bạn tìm kiếm tác phẩm hay có câu
-                    hỏi nào không?</div>
+                <!-- Welcome message -->
+                <div class="chat-msg-wrapper bot-wrapper visible">
+                    <div class="chat-msg bot-msg">
+                        Xin chào! 👋 Tôi là <strong>ArtBot</strong>, trợ lý AI của ArtGallery.<br>
+                        Tôi có thể giúp bạn khám phá các tác phẩm nghệ thuật, tìm hiểu về họa sĩ hay giải đáp thắc mắc!
+                    </div>
+                    <span class="chat-time">Bây giờ</span>
+                </div>
             </div>
+
+            <!-- Quick replies -->
+            <div class="chatbot-quick-replies" id="chatbot-quick-replies">
+                <button class="qr-chip" data-msg="Có những phong cách tranh nào?">🎨 Phong cách tranh</button>
+                <button class="qr-chip" data-msg="Cách gửi tác phẩm lên gallery?">📤 Gửi tác phẩm</button>
+                <button class="qr-chip" data-msg="Tìm tranh sơn dầu đẹp">🖼️ Tìm tranh</button>
+            </div>
+
+            <!-- Input -->
             <div class="chatbot-footer">
-                <input type="text" id="chatbot-input" placeholder="Nhập tin nhắn...">
-                <button id="chatbot-send" title="Send message"><i class="bi bi-send-fill"></i></button>
+                <input type="text" id="chatbot-input" placeholder="Hỏi ArtBot về nghệ thuật..." autocomplete="off" maxlength="500">
+                <button id="chatbot-send" title="Gửi tin nhắn">
+                    <i class="bi bi-send-fill"></i>
+                </button>
             </div>
         </div>
     </div>
+
 
     <!-- ═══ Scripts ═══ -->
     <!-- Bootstrap 5 JS Bundle -->
@@ -211,6 +247,8 @@
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/main.js"></script>
+    <!-- AI Chatbot -->
+    <script src="js/chatbot.js"></script>
     <!-- User Authentication UI -->
     <script>
         function getUserInitials(name) {
