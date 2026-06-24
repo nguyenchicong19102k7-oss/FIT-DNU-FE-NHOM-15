@@ -335,6 +335,9 @@
                             <span class="section-tag">Phong cách</span>
                             <h6>Danh mục phong cách nghệ thuật</h6>
                         </div>
+                        <button class="btn btn-primary btn-sm" onclick="openStyleModal()">
+                            <i class="bi bi-plus-lg me-1"></i> Thêm phong cách
+                        </button>
                     </div>
 
                     <!-- Styles Insights -->
@@ -360,45 +363,10 @@
                     </div>
 
                     <div class="row g-3">
-                        <!-- Add / Edit Style Form -->
-                        <div class="col-lg-4">
-                            <div class="panel-card h-100">
-                                <div class="panel-card-header">
-                                    <h5><i class="bi bi-plus-circle text-primary"></i> <span id="style-form-title">Thêm phong cách mới</span></h5>
-                                </div>
-                                <div class="panel-card-body">
-                                    <div class="admin-form">
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Tên phong cách <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="style-name-input" placeholder="VD: Sơn dầu, Màu nước...">
-                                            <div class="invalid-feedback">Vui lòng nhập tên phong cách.</div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Mô tả</label>
-                                            <textarea class="form-control" id="style-desc-input" rows="3" placeholder="Mô tả ngắn về phong cách này..."></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Màu đại diện</label>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <input type="color" class="form-control form-control-color" id="style-color-input" value="#3b71ca" title="Chọn màu">
-                                                <small class="text-muted">Màu hiển thị trên badge</small>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-primary flex-grow-1" id="style-submit-btn" onclick="submitStyle()">
-                                                <i class="bi bi-plus-circle me-1"></i> Thêm phong cách
-                                            </button>
-                                            <button class="btn btn-outline-secondary" id="style-cancel-btn" onclick="resetStyleForm()" style="display:none">
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Styles List -->
-                        <div class="col-lg-8">
+                        <div class="col-12">
                             <div class="panel-card">
                                 <div class="panel-card-header">
                                     <h5><i class="bi bi-palette text-primary"></i> Danh sách phong cách</h5>
@@ -425,6 +393,9 @@
                             <span class="section-tag">Tác giả</span>
                             <h6>Danh sách nghệ sĩ &amp; tác giả</h6>
                         </div>
+                        <button class="btn btn-primary btn-sm" onclick="openArtistModal()">
+                            <i class="bi bi-plus-lg me-1"></i> Thêm tác giả
+                        </button>
                     </div>
 
                     <!-- Artists Insights -->
@@ -450,42 +421,10 @@
                     </div>
 
                     <div class="row g-3">
-                        <!-- Add / Edit Artist Form -->
-                        <div class="col-lg-4">
-                            <div class="panel-card h-100">
-                                <div class="panel-card-header">
-                                    <h5><i class="bi bi-person-plus text-primary"></i> <span id="artist-form-title">Thêm tác giả mới</span></h5>
-                                </div>
-                                <div class="panel-card-body">
-                                    <div class="admin-form">
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Tên tác giả <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="artist-name-input" placeholder="VD: Vincent van Gogh...">
-                                            <div class="invalid-feedback">Vui lòng nhập tên tác giả.</div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Quốc tịch</label>
-                                            <input type="text" class="form-control" id="artist-nationality-input" placeholder="VD: Việt Nam, Pháp...">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Tiểu sử</label>
-                                            <textarea class="form-control" id="artist-bio-input" rows="3" placeholder="Mô tả ngắn về tác giả..."></textarea>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-primary flex-grow-1" id="artist-submit-btn" onclick="submitArtist()">
-                                                <i class="bi bi-person-plus me-1"></i> Thêm tác giả
-                                            </button>
-                                            <button class="btn btn-outline-secondary" id="artist-cancel-btn" onclick="resetArtistForm()" style="display:none">
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Artists List -->
-                        <div class="col-lg-8">
+                        <div class="col-12">
                             <div class="panel-card">
                                 <div class="panel-card-header">
                                     <h5><i class="bi bi-people text-primary"></i> Danh sách tác giả</h5>
@@ -575,6 +514,92 @@
                     </button>
                     <button type="button" class="btn btn-primary" id="btn-submit" onclick="submitArtworkForm()">
                         <i class="bi bi-plus-circle me-1"></i> Thêm tác phẩm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════
+         MODAL: ADD / EDIT STYLE
+    ═══════════════════════════════ -->
+    <div class="modal fade" id="styleModal" tabindex="-1" aria-labelledby="styleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content admin-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="styleModalLabel">
+                        <i class="bi bi-plus-circle text-primary me-2"></i> <span id="style-form-title-text">Thêm phong cách mới</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-form">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tên phong cách <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="style-name-input" placeholder="VD: Sơn dầu, Màu nước...">
+                            <div class="invalid-feedback">Vui lòng nhập tên phong cách.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Mô tả</label>
+                            <textarea class="form-control" id="style-desc-input" rows="3" placeholder="Mô tả ngắn về phong cách này..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Màu đại diện</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="color" class="form-control form-control-color" id="style-color-input" value="#3b71ca" title="Chọn màu">
+                                <small class="text-muted">Màu hiển thị trên badge</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" id="style-cancel-btn" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg me-1"></i> Hủy
+                    </button>
+                    <button class="btn btn-primary" id="style-submit-btn" onclick="submitStyle()">
+                        <i class="bi bi-plus-circle me-1"></i> Thêm phong cách
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         MODAL: ADD / EDIT ARTIST
+    ═══════════════════════════════ -->
+    <div class="modal fade" id="artistModal" tabindex="-1" aria-labelledby="artistModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content admin-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="artistModalLabel">
+                        <i class="bi bi-person-plus text-primary me-2"></i> <span id="artist-form-title-text">Thêm tác giả mới</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-form">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tên tác giả <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="artist-name-input" placeholder="VD: Vincent van Gogh...">
+                            <div class="invalid-feedback">Vui lòng nhập tên tác giả.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Quốc tịch</label>
+                            <input type="text" class="form-control" id="artist-nationality-input" placeholder="VD: Việt Nam, Pháp...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tiểu sử</label>
+                            <textarea class="form-control" id="artist-bio-input" rows="3" placeholder="Mô tả ngắn về tác giả..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" id="artist-cancel-btn" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg me-1"></i> Hủy
+                    </button>
+                    <button class="btn btn-primary" id="artist-submit-btn" onclick="submitArtist()">
+                        <i class="bi bi-person-plus me-1"></i> Thêm tác giả
                     </button>
                 </div>
             </div>

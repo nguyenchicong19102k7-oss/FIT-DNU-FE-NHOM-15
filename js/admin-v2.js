@@ -9,6 +9,8 @@
 var adminArtworks = [];
 var editingId = null;
 var artworkModal = null;
+var styleModal = null;
+var artistModal = null;
 
 /* Local-managed data (localStorage) */
 var adminStyles  = JSON.parse(localStorage.getItem('ag_styles')  || 'null') || [
@@ -36,6 +38,8 @@ var editingArtistId = null;
 ═══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
     artworkModal = new bootstrap.Modal(document.getElementById('artworkModal'));
+    styleModal = new bootstrap.Modal(document.getElementById('styleModal'));
+    artistModal = new bootstrap.Modal(document.getElementById('artistModal'));
     loadArtworks();
     renderStylesList();
     renderArtistsList();
@@ -381,6 +385,14 @@ function previewImage(url) {
 /* ═══════════════════════════════════════
    STYLES MANAGEMENT
 ═══════════════════════════════════════ */
+
+function openStyleModal() {
+    resetStyleForm();
+    document.getElementById('style-form-title-text').textContent = 'Thêm phong cách mới';
+    document.getElementById('style-submit-btn').innerHTML = '<i class="bi bi-plus-circle me-1"></i> Thêm phong cách';
+    if (styleModal) styleModal.show();
+}
+
 function saveStyles() {
     localStorage.setItem('ag_styles', JSON.stringify(adminStyles));
 }
@@ -449,6 +461,7 @@ function submitStyle() {
     }
 
     saveStyles();
+    if (styleModal) styleModal.hide();
     resetStyleForm();
     renderStylesList();
     renderBreakdownGrid('style');
@@ -461,10 +474,9 @@ function editStyle(id) {
     document.getElementById('style-name-input').value  = s.name;
     document.getElementById('style-desc-input').value  = s.desc || '';
     document.getElementById('style-color-input').value = s.color || '#3b71ca';
-    document.getElementById('style-form-title').textContent = 'Chỉnh sửa phong cách';
+    document.getElementById('style-form-title-text').textContent = 'Chỉnh sửa phong cách';
     document.getElementById('style-submit-btn').innerHTML = '<i class="bi bi-save me-1"></i> Cập nhật';
-    document.getElementById('style-cancel-btn').style.display = 'inline-block';
-    document.getElementById('style-name-input').focus();
+    if (styleModal) styleModal.show();
 }
 
 function deleteStyle(id) {
@@ -482,9 +494,9 @@ function resetStyleForm() {
     document.getElementById('style-name-input').value  = '';
     document.getElementById('style-desc-input').value  = '';
     document.getElementById('style-color-input').value = '#3b71ca';
-    document.getElementById('style-form-title').textContent = 'Thêm phong cách mới';
+    document.getElementById('style-form-title-text').textContent = 'Thêm phong cách mới';
     document.getElementById('style-submit-btn').innerHTML = '<i class="bi bi-plus-circle me-1"></i> Thêm phong cách';
-    document.getElementById('style-cancel-btn').style.display = 'none';
+
     document.getElementById('style-name-input').classList.remove('is-invalid');
 }
 
@@ -815,6 +827,14 @@ function saveArtists() {
     localStorage.setItem('ag_artists', JSON.stringify(adminArtists));
 }
 
+
+function openArtistModal() {
+    resetArtistForm();
+    document.getElementById('artist-form-title-text').textContent = 'Thêm tác giả mới';
+    document.getElementById('artist-submit-btn').innerHTML = '<i class="bi bi-person-plus me-1"></i> Thêm tác giả';
+    if (artistModal) artistModal.show();
+}
+
 function renderArtistsList() {
     var list = document.getElementById('artists-list');
     if (!list) return;
@@ -877,6 +897,7 @@ function submitArtist() {
     }
 
     saveArtists();
+    if (artistModal) artistModal.hide();
     resetArtistForm();
     renderArtistsList();
     populateArtistDatalist(adminArtworks);
@@ -890,10 +911,9 @@ function editArtist(id) {
     document.getElementById('artist-name-input').value        = a.name;
     document.getElementById('artist-nationality-input').value = a.nationality || '';
     document.getElementById('artist-bio-input').value         = a.bio || '';
-    document.getElementById('artist-form-title').textContent  = 'Chỉnh sửa tác giả';
+    document.getElementById('artist-form-title-text').textContent  = 'Chỉnh sửa tác giả';
     document.getElementById('artist-submit-btn').innerHTML    = '<i class="bi bi-save me-1"></i> Cập nhật';
-    document.getElementById('artist-cancel-btn').style.display = 'inline-block';
-    document.getElementById('artist-name-input').focus();
+    if (artistModal) artistModal.show();
 }
 
 function deleteArtist(id) {
@@ -911,9 +931,9 @@ function resetArtistForm() {
     document.getElementById('artist-name-input').value        = '';
     document.getElementById('artist-nationality-input').value = '';
     document.getElementById('artist-bio-input').value         = '';
-    document.getElementById('artist-form-title').textContent  = 'Thêm tác giả mới';
+    document.getElementById('artist-form-title-text').textContent  = 'Thêm tác giả mới';
     document.getElementById('artist-submit-btn').innerHTML    = '<i class="bi bi-person-plus me-1"></i> Thêm tác giả';
-    document.getElementById('artist-cancel-btn').style.display = 'none';
+
     document.getElementById('artist-name-input').classList.remove('is-invalid');
 }
 
